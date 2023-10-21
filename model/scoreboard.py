@@ -4,14 +4,13 @@ import constants as c
 
 class Scoreboard(Turtle):
     def __init__(self):
-        super().__init__()
-
-        self.score = 0
-        self.lives = c.LIVES
-        self.hideturtle()
+        # Init turtle
+        super().__init__(visible=False)
         self.penup()
         self.color(c.FONT_COLOR)
 
+        self.score = 0
+        self.lives = c.LIVES
         self.show()
 
     def show(self):
