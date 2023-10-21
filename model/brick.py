@@ -5,7 +5,7 @@ import constants as c
 class Brick(Turtle):
     def __init__(self):
         super().__init__(shape='square')
-        self.shapesize(0.5, c.BRICK_WIDTH/c.CONV)
+        self.shapesize(c.BRICK_HEIGHT/c.CONV, c.BRICK_WIDTH/c.CONV)
         self.penup()
         self.score = 0
 
