@@ -12,7 +12,7 @@ class App:
     def __init__(self):
         self.screen = Screen()
         self.screen.tracer(0)
-        self.screen.setup(width=c.SCREEN_W, height=c.SCREEN_H)
+        self.screen.setup(width=c.SCREEN_WIDTH, height=c.SCREEN_HEIGHT)
         self.screen.bgcolor(c.BG_COLOR)
         self.screen.title(c.TITLE)
 

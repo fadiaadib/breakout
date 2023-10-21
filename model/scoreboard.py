@@ -15,7 +15,7 @@ class Scoreboard(Turtle):
 
     def show(self):
         self.clear()
-        self.goto(x=60-c.SCREEN_W/2, y=c.SCREEN_H/2-30)
+        self.goto(x=60 - c.SCREEN_WIDTH / 2, y=c.SCREEN_HEIGHT / 2 - 30)
         self.write(arg=f'Lives: {self.lives}', align='center', font=c.FONT)
-        self.goto(x=0, y=c.SCREEN_H/2-30)
+        self.goto(x=0, y=c.SCREEN_HEIGHT / 2 - 30)
         self.write(arg=f'Points: {self.score}', align='center', font=c.FONT)

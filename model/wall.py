@@ -8,13 +8,13 @@ class Wall:
         self.create_bricks()
 
     def create_bricks(self):
-        x = -c.SCREEN_H/2 + c.BRICK_GAP + c.BRICK_W/2
+        x = -c.SCREEN_HEIGHT / 2 + c.BRICK_GAP + c.BRICK_WIDTH / 2
         for i in range(0,14):
-            y = c.SCREEN_H / 2 - c.UPPER_GAP
+            y = c.SCREEN_HEIGHT / 2 - c.UPPER_GAP
             for brick_type in [RedBrick, OrangeBrick, GreenBrick, YellowBrick]:
                 for _ in range(0, 2):
                     brick = brick_type()
                     brick.goto(x, y)
                     self.bricks.append(brick)
                     y -= (c.BRICK_GAP + 10)
-            x += c.BRICK_GAP + c.BRICK_W
+            x += c.BRICK_GAP + c.BRICK_WIDTH
