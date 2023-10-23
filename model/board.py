@@ -16,12 +16,12 @@ class Board:
         w, n, e, s = ball.bounds()
 
         # if e >= self.e or w <= self.w:
-        if is_close(e, self.e) or is_close(w, self.w):
+        if e >= self.e or w <= self.w:
             ball.bounce('v')
             audio.play(self.bounce_sound)
 
         # elif n >= self.n or (c.DEBUG and s <= self.s):
-        elif is_close(n, self.n) or (c.DEBUG and is_close(s, self.s)):
+        elif n >= self.n or (c.DEBUG and s <= self.s):
             ball.bounce('h')
             audio.play(self.bounce_sound)
 
