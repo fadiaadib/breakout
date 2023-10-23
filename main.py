@@ -1,14 +1,16 @@
 from turtle import Screen
+from tkinter import TclError
 import time
+
 from model.ball import Ball
 from model.wall import Wall
-from model.game_board import GameBoard
+from model.board import Board
 from model.paddle import Paddle
 from model.scoreboard import Scoreboard
 import constants as c
 
 
-class App:
+class Breakout:
     def __init__(self):
         self.screen = Screen()
         self.screen.tracer(0)
@@ -16,27 +18,54 @@ class App:
         self.screen.bgcolor(c.BG_COLOR)
         self.screen.title(c.TITLE)
 
-        self.ball = Ball()
         self.paddle = Paddle()
         self.wall = Wall()
-        self.scoreboard = Scoreboard()
-        self.board = GameBoard()
+        self.score = Scoreboard()
+        self.board = Board()
+        self.ball = Ball()
 
-        self.create_bindings()
-        self.start()
+        self.key_bindings()
+        self.play()
+        try:
+            self.screen.exitonclick()
+        except TclError:
+            pass
 
-    def create_bindings(self):
+    def key_bindings(self):
         # Create listeners
         self.screen.listen()
         self.screen.onkey(self.paddle.move_right, 'Right')
         self.screen.onkey(self.paddle.move_left, 'Left')
 
-    def start(self):
-        while True:
-            self.screen.update()
-            time.sleep(0.05)
+    def update(self):
+        self.screen.update()
+        time.sleep(0.005)
+
+    def play(self):
+        try:
+            while True:
+                self.update()
+                self.ball.move()
+
+                # Check collision with paddle:
+                self.paddle.check_collision(self.ball)
+
+                # Check collision with bricks wall
+                points = self.wall.check_collision(self.ball)
+                if points:
+                    self.score.update_score(points)
+
+                # Check collision with board walls or fail
+                if not self.board.check_collision(self.ball):
+                    self.score.update_lives(-1)
+                    if self.score.game_over():
+                        break
+                    else:
+                        time.sleep(0.6)
+                        self.ball.restart()
+        except TclError:
+            pass
 
 
 if __name__ == '__main__':
-    app = App()
-    app.screen.exitonclick()
+    game = Breakout()

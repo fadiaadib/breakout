@@ -1,5 +1,6 @@
 from model.brick import *
 import constants as c
+from helpers import *
 
 
 class Wall:
@@ -18,3 +19,9 @@ class Wall:
                     self.bricks.append(brick)
                     y -= (c.BRICK_GAP + c.BRICK_HEIGHT)
             x += c.BRICK_GAP + c.BRICK_WIDTH
+
+    def check_collision(self, ball: Ball):
+        for brick in self.bricks[::-1]:
+            if brick.check_collision(ball):
+                return brick.points
+        return None
