@@ -8,12 +8,12 @@ CONV = 20
 
 # Ball
 BALL_SIZE = 0.5
-BALL_SPEED = 5
+BALL_SPEED = 3
 BALL_ORIENT = (210, 330)
-BALL_SPEED_INC = 1
+BALL_SPEED_INC = 0.2
 
 # Paddle
-PADDLE_WIDTH = 300
+PADDLE_WIDTH = 800
 PADDLE_HEIGHT = 10
 PADDLE_SPEED = 100
 PADDLE_SOUTH_GAP = 30
@@ -41,5 +41,4 @@ FONT = ('Courier', 16, 'normal')
 BIG_FONT = ('Courier', 24, 'bold')
 
 # Debug
-DEBUG = False
 SOUND_ON = True

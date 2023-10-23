@@ -19,15 +19,15 @@ class Board:
         if e >= self.e or w <= self.w:
             ball.bounce('v')
             audio.play(self.bounce_sound)
+            return 'wall'
 
         # elif n >= self.n or (c.DEBUG and s <= self.s):
-        elif n >= self.n or (c.DEBUG and s <= self.s):
+        elif n >= self.n:
             ball.bounce('h')
             audio.play(self.bounce_sound)
+            return 'top'
 
         elif n <= self.s:
             # Lose life:
             audio.play(self.fail_sound)
-            return False
-
-        return True
+            return 'bottom'

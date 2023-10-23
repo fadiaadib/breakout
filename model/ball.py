@@ -18,6 +18,9 @@ class Ball(Turtle):
     def move(self):
         self.forward(self.velocity)
 
+    def speedup(self):
+        self.velocity += c.BALL_SPEED_INC
+
     def restart(self):
         self.goto(x=0, y=0)
         self.velocity = c.BALL_SPEED

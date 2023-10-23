@@ -23,6 +23,8 @@ class Breakout:
         self.score = Scoreboard()
         self.board = Board()
         self.ball = Ball()
+        self.collisions = 0
+        self.top_collision = False
 
         self.key_bindings()
         try:
@@ -39,7 +41,7 @@ class Breakout:
 
     def update(self):
         self.screen.update()
-        time.sleep(0.005)
+        time.sleep(0.001)
 
     def play(self):
         while True:
@@ -53,15 +55,24 @@ class Breakout:
             points = self.wall.check_collision(self.ball)
             if points:
                 self.score.update_score(points)
+                self.collisions += 1
+                if self.collisions % 4 == 0 or self.collisions % 12 == 0:
+                    self.ball.speedup()
 
             # Check collision with board walls or fail
-            if not self.board.check_collision(self.ball):
+            board_collision = self.board.check_collision(self.ball)
+            if board_collision == 'bottom':
+                self.collisions = 0
+                self.top_collision = False
                 self.score.update_lives(-1)
                 if self.score.game_over():
                     break
                 else:
                     time.sleep(0.6)
                     self.ball.restart()
+            elif board_collision == 'top' and not self.top_collision:
+                self.top_collision = True
+                self.ball.speedup()
 
 
 if __name__ == '__main__':
