@@ -25,8 +25,8 @@ class Breakout:
         self.ball = Ball()
 
         self.key_bindings()
-        self.play()
         try:
+            self.play()
             self.screen.exitonclick()
         except TclError:
             pass
@@ -42,29 +42,26 @@ class Breakout:
         time.sleep(0.005)
 
     def play(self):
-        try:
-            while True:
-                self.update()
-                self.ball.move()
+        while True:
+            self.update()
+            self.ball.move()
 
-                # Check collision with paddle:
-                self.paddle.check_collision(self.ball)
+            # Check collision with paddle:
+            self.paddle.check_collision(self.ball)
 
-                # Check collision with bricks wall
-                points = self.wall.check_collision(self.ball)
-                if points:
-                    self.score.update_score(points)
+            # Check collision with bricks wall
+            points = self.wall.check_collision(self.ball)
+            if points:
+                self.score.update_score(points)
 
-                # Check collision with board walls or fail
-                if not self.board.check_collision(self.ball):
-                    self.score.update_lives(-1)
-                    if self.score.game_over():
-                        break
-                    else:
-                        time.sleep(0.6)
-                        self.ball.restart()
-        except TclError:
-            pass
+            # Check collision with board walls or fail
+            if not self.board.check_collision(self.ball):
+                self.score.update_lives(-1)
+                if self.score.game_over():
+                    break
+                else:
+                    time.sleep(0.6)
+                    self.ball.restart()
 
 
 if __name__ == '__main__':
