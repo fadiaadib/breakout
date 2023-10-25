@@ -23,9 +23,10 @@ class Breakout:
         self.score = Scoreboard()
         self.board = Board()
         self.ball = Ball()
-        self.wall_collisions = 0
-        self.top_collision = False
-        self.brick_collision = False
+
+        self.brick_collision_counter = 0
+        self.top_board_collision = False
+        self.top_brick_collision = False
         self.turn = 1
 
         self.key_bindings()
@@ -46,9 +47,9 @@ class Breakout:
         time.sleep(c.REFRESH_PERIOD)
 
     def reset_collisions(self):
-        self.wall_collisions = 0
-        self.top_collision = False
-        self.brick_collision = False
+        self.brick_collision_counter = 0
+        self.top_board_collision = False
+        self.top_brick_collision = False
 
     def increment_turn(self):
         self.turn += 1
@@ -78,13 +79,15 @@ class Breakout:
             points, speedup = self.wall.check_collision(self.ball)
             if points:
                 self.score.update_score(points)
-                self.wall_collisions += 1
+                self.brick_collision_counter += 1
                 if not self.wall.bricks and not self.increment_turn():
                     break
-                if self.wall_collisions % 4 == 0 or self.wall_collisions % 12 == 0:
+                if self.brick_collision_counter % 4 == 0:
                     self.ball.speedup()
-                if speedup and not self.brick_collision:
-                    self.brick_collision = True
+                if self.brick_collision_counter % 12 == 0:
+                    self.ball.speedup()
+                if speedup and not self.top_brick_collision:
+                    self.top_brick_collision = True
                     self.ball.speedup()
 
             # Check collision with board walls or life
@@ -99,8 +102,8 @@ class Breakout:
                     self.ball.restart()
                     self.screen.update()
                     time.sleep(c.RESTART_PERIOD)
-            elif board_collision == 'top' and not self.top_collision:
-                self.top_collision = True
+            elif board_collision == 'top' and not self.top_board_collision:
+                self.top_board_collision = True
                 self.ball.speedup()
                 self.paddle.shrink()
 
