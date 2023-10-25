@@ -23,5 +23,10 @@ class Wall:
     def check_collision(self, ball: Ball):
         for brick in self.bricks[::-1]:
             if brick.check_collision(ball):
-                return brick.points
-        return None
+                self.bricks.remove(brick)
+                return brick.points, brick.speedup
+        return None, None
+
+    def restart(self):
+        self.bricks = []
+        self.create_bricks()

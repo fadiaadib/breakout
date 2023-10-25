@@ -38,3 +38,6 @@ class Ball(Turtle):
                 self.ycor() + self.radius,
                 self.xcor() + self.radius,
                 self.ycor() - self.radius)
+
+    def delete(self):
+        self.color(c.BG_COLOR)

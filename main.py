@@ -23,8 +23,10 @@ class Breakout:
         self.score = Scoreboard()
         self.board = Board()
         self.ball = Ball()
-        self.collisions = 0
+        self.wall_collisions = 0
         self.top_collision = False
+        self.brick_collision = False
+        self.turn = 1
 
         self.key_bindings()
         try:
@@ -41,7 +43,28 @@ class Breakout:
 
     def update(self):
         self.screen.update()
-        time.sleep(0.001)
+        time.sleep(c.REFRESH_PERIOD)
+
+    def reset_collisions(self):
+        self.wall_collisions = 0
+        self.top_collision = False
+        self.brick_collision = False
+
+    def increment_turn(self):
+        self.turn += 1
+        if self.turn > c.ROUNDS:
+            self.ball.delete()
+            self.score.game_over()
+            self.screen.update()
+            return False
+        else:
+            self.score.reset_lives()
+            self.ball.restart()
+            self.wall.restart()
+            self.paddle.restart()
+            self.screen.update()
+            time.sleep(c.RESTART_PERIOD)
+            return True
 
     def play(self):
         while True:
@@ -52,28 +75,34 @@ class Breakout:
             self.paddle.check_collision(self.ball)
 
             # Check collision with bricks wall
-            points = self.wall.check_collision(self.ball)
+            points, speedup = self.wall.check_collision(self.ball)
             if points:
                 self.score.update_score(points)
-                self.collisions += 1
-                if self.collisions % 4 == 0 or self.collisions % 12 == 0:
+                self.wall_collisions += 1
+                if not self.wall.bricks and not self.increment_turn():
+                    break
+                if self.wall_collisions % 4 == 0 or self.wall_collisions % 12 == 0:
+                    self.ball.speedup()
+                if speedup and not self.brick_collision:
+                    self.brick_collision = True
                     self.ball.speedup()
 
-            # Check collision with board walls or fail
+            # Check collision with board walls or life
             board_collision = self.board.check_collision(self.ball)
             if board_collision == 'bottom':
-                self.collisions = 0
-                self.top_collision = False
+                self.reset_collisions()
                 self.score.update_lives(-1)
-                if self.score.game_over():
+                if self.score.out_of_lives() and not self.increment_turn():
                     break
                 else:
-                    time.sleep(0.6)
                     self.ball.restart()
+                    self.screen.update()
+                    time.sleep(c.RESTART_PERIOD)
             elif board_collision == 'top' and not self.top_collision:
                 self.top_collision = True
                 self.ball.speedup()
+                self.paddle.shrink()
 
 
 if __name__ == '__main__':
-    game = Breakout()
+    Breakout()

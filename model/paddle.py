@@ -9,16 +9,17 @@ class Paddle(Turtle):
     def __init__(self):
         super().__init__(shape='square')
         self.color(c.PADDLE_COLOR)
-        self.shapesize(c.PADDLE_HEIGHT/c.CONV, c.PADDLE_WIDTH/c.CONV)
+        self.span = c.PADDLE_WIDTH
+        self.shapesize(c.PADDLE_HEIGHT/c.CONV, self.span/c.CONV)
         self.penup()
         self.goto(0, c.PADDLE_SOUTH_GAP - c.SCREEN_HEIGHT / 2)
         self.speed('fastest')
         self.sound = 'paddle'
 
     def bounds(self):
-        return (self.xcor() - c.PADDLE_WIDTH / 2,
+        return (self.xcor() - self.span / 2,
                 self.ycor() + c.PADDLE_HEIGHT / 2,
-                self.xcor() + c.PADDLE_WIDTH / 2,
+                self.xcor() + self.span / 2,
                 self.ycor() - c.PADDLE_HEIGHT / 2)
 
     def move_right(self):
@@ -41,3 +42,11 @@ class Paddle(Turtle):
         elif (w <= bx <= e) and (is_close(bn, s) or is_close(bs, n)):
             ball.bounce('h')
             audio.play(self.sound)
+
+    def shrink(self):
+        self.span = c.PADDLE_WIDTH/2
+        self.shapesize(c.PADDLE_HEIGHT/c.CONV, self.span/c.CONV)
+
+    def restart(self):
+        self.span = c.PADDLE_WIDTH
+        self.shapesize(c.PADDLE_HEIGHT/c.CONV, self.span/c.CONV)

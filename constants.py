@@ -29,6 +29,11 @@ BRICK_DEAD_COLOR = '#191919'
 
 # Game rules
 LIVES = 3
+ROUNDS = 2
+
+# Time updates
+REFRESH_PERIOD = 0.001
+RESTART_PERIOD = 0.6
 
 # Colors
 BG_COLOR = '#191919'
