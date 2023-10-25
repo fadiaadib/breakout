@@ -23,11 +23,11 @@ class Paddle(Turtle):
                 self.ycor() - c.PADDLE_HEIGHT / 2)
 
     def move_right(self):
-        if (self.xcor() + c.PADDLE_WIDTH/2) < (c.SCREEN_WIDTH / 2):
+        if (self.xcor() + self.span/2) < (c.SCREEN_WIDTH / 2):
             self.forward(c.PADDLE_SPEED)
 
     def move_left(self):
-        if (self.xcor() - c.PADDLE_WIDTH/2) > (-c.SCREEN_WIDTH / 2):
+        if (self.xcor() - self.span/2) > (-c.SCREEN_WIDTH / 2):
             self.backward(c.PADDLE_SPEED)
 
     def check_collision(self, ball: Ball):
