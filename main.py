@@ -54,11 +54,12 @@ class Breakout:
         self.turn += 1
         if self.turn > c.ROUNDS:
             self.ball.delete()
-            self.score.game_over()
+            self.score.game_over(win=True)
             self.screen.update()
             return False
         else:
             self.score.reset_lives()
+            self.score.update_round(self.turn)
             self.ball.restart()
             self.wall.restart()
             self.paddle.restart()
@@ -92,7 +93,8 @@ class Breakout:
             if board_collision == 'bottom':
                 self.reset_collisions()
                 self.score.update_lives(-1)
-                if self.score.out_of_lives() and not self.increment_turn():
+                if self.score.out_of_lives():
+                    self.score.game_over(win=False)
                     break
                 else:
                     self.ball.restart()
