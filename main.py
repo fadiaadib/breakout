@@ -58,7 +58,6 @@ class Breakout:
             self.screen.update()
             return False
         else:
-            self.score.reset_lives()
             self.score.update_round(self.turn)
             self.ball.restart()
             self.wall.restart()
